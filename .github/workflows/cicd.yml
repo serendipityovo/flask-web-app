@@ -25,14 +25,14 @@ jobs:
           pip install pytest==8.4.1
           pytest tests/ -v
         continue-on-error: false
-      - name: Deploy to Touge Server via SSH (Port 50241)
+      - name: Deploy to Touge Server via SSH (Port 44663)
         run: |
           mkdir -p ~/.ssh
           printf "%s\n" "${{ secrets.TOUGE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p 41264 -H ${{ secrets.TOUGE_SERVER_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p 44663 -H ${{ secrets.TOUGE_SERVER_IP }} >> ~/.ssh/known_hosts
           echo "SSH环境配置完成，尝试连接服务器..."
-          ssh -v -p 41264 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa root@${{ secrets.TOUGE_SERVER_IP }} << 'EOF'
+          ssh -v -p 44663 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa root@${{ secrets.TOUGE_SERVER_IP }} << 'EOF'
             set -e
             echo "成功连接服务器：$(whoami)@$(hostname)"
             cd /root/flask-web-app || { echo "项目目录不存在"; exit 1; }
